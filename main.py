@@ -4,6 +4,8 @@ from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 import math, sys
 import time, sys
+from primesieve.numpy import *
+import primesieve
 
 extra_resources = "https://en.wikipedia.org/wiki/Riemann_hypothesis ,\nhttps://math.uni.lu/eml/projects/reports/prime-distribution.pdf,\nand https://www.youtube.com/watch?v=zlm1aajH6gY&ab_channel=QuantaMagazine"
 
@@ -15,10 +17,7 @@ def prime_presenter():
   global prime_number_list_2
   prime_number_list = []
   prime_number_list_2 = ""
-  for x in range(lower, upper + 1):
-      x, count = prime_finder(x)
-      if count == 1:
-        prime_number_list.append(f"{x}")
+  prime_number_list = primes(lower, upper)
   try:
     prime_number_list.remove("1")
   except:
@@ -110,7 +109,7 @@ def prime_data(main_choice):
   print(100*(prime_count_list[-1] - approaching_list[-1])/count_list[-1])
   t_2 = time.perf_counter()
   print("Getting your image ready...")
-  x = plotting(count_list, prime_count_list, approaching_list)
+  x = plotting(count_list, prime_count_list, "")
   t_3 = time.perf_counter()
   return t_1, t_2, t_3, prime_list
 
@@ -134,27 +133,27 @@ def digit_data():
   count_list = []
   print("Processing...")
   t_1 = time.perf_counter()
+  it = primesieve.Iterator(0)
   while count <= upper:
       prime_str = ""
-      for x in range(count - step, count + 1):
-        if prime_data_finder(x) != "":
-          prime_list.append(x)
+      x = it.next_prime()
+      prime_list.append(x)
       prime_digitdata_list = list(dict.fromkeys(prime_list))
       global prime_save_list
       prime_save_list = prime_digitdata_list
       for x in prime_digitdata_list:
         prime_str += f"{x}"
-      g_count_0 = int(prime_str.count("0"))
-      g_count_1 = int(prime_str.count("1")) 
-      g_count_2 = int(prime_str.count("2")) 
-      g_count_3 = int(prime_str.count("3")) 
-      g_count_4 = int(prime_str.count("4")) 
-      g_count_5 = int(prime_str.count("5")) 
-      g_count_6 = int(prime_str.count("6")) 
-      g_count_7 = int(prime_str.count("7")) 
-      g_count_8 = int(prime_str.count("8")) 
-      g_count_9 = int(prime_str.count("9"))
-      list_0.append(g_count_0), list_1.append(g_count_1),list_2.append(g_count_2), list_3.append(g_count_3), list_4.append(g_count_4), list_5.append(g_count_5), list_6.append(g_count_6), list_7.append(g_count_7), list_8.append(g_count_8), list_9.append(g_count_9), count_list.append(count)
+        g_count_0 = int(prime_str.count("0"))
+        g_count_1 = int(prime_str.count("1")) 
+        g_count_2 = int(prime_str.count("2")) 
+        g_count_3 = int(prime_str.count("3")) 
+        g_count_4 = int(prime_str.count("4")) 
+        g_count_5 = int(prime_str.count("5")) 
+        g_count_6 = int(prime_str.count("6")) 
+        g_count_7 = int(prime_str.count("7")) 
+        g_count_8 = int(prime_str.count("8")) 
+        g_count_9 = int(prime_str.count("9"))
+      list_0.append(g_count_0), list_1.append(g_count_1), list_2.append(g_count_2), list_3.append(g_count_3), list_4.append(g_count_4), list_5.append(g_count_5), list_6.append(g_count_6), list_7.append(g_count_7), list_8.append(g_count_8), list_9.append(g_count_9), count_list.append(count)
       count += step
   global highest_number_dict
   highest_number_dict = {0:g_count_0, 1:g_count_1, 2:g_count_2, 3:g_count_3, 4:g_count_4, 5:g_count_5,6:g_count_6, 7:g_count_7, 8:g_count_8, 9:g_count_9}
